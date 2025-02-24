@@ -1,10 +1,13 @@
+import { Link } from "react-router-dom";
 const Home = () => {
   return (
-    <div className="mockup-phone border-primary">
-      <div className="camera"></div>
-      <div className="display">
-        <div className="artboard artboard-demo phone-1">Hi.</div>
-      </div>
+    <div className="">
+      <Link to="/login" className="btn btn-primary">
+        Login
+      </Link>
+      <Link to="/registration" className="btn btn-primary">
+        Register
+      </Link>
     </div>
   );
 };

@@ -10,7 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.66.9",
+    "axios": "^1.7.9",
     "firebase": "^11.1.0",
+    "framer-motion": "^12.4.7",
+    "lucide-react": "^0.475.0",
     "react": "^18.2.0",
     "react-datepicker": "^6.9.0",
     "react-dom": "^18.2.0",
