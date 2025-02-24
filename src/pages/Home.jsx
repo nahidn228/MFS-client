@@ -1,13 +1,8 @@
-import { Link } from "react-router-dom";
+import Banner from "./../components/Banner";
 const Home = () => {
   return (
-    <div className="">
-      <Link to="/login" className="btn btn-primary">
-        Login
-      </Link>
-      <Link to="/registration" className="btn btn-primary">
-        Register
-      </Link>
+    <div className=" w-full flex justify-center items-center">
+      <Banner />
     </div>
   );
 };

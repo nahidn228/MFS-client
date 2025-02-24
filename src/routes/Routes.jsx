@@ -3,7 +3,10 @@ import Main from "../layouts/Main";
 import Dashboard from "../pages/Authentication/Dashboard";
 import Login from "../pages/Authentication/Login";
 import Register from "../pages/Authentication/Register";
+
 import Home from "../pages/Home";
+import CashOut from "../pages/CashOut";
+import SendMoney from "../pages/SendMoney";
 
 const router = createBrowserRouter([
   {
@@ -25,8 +28,16 @@ const router = createBrowserRouter([
         element: <Register />,
       },
       {
-        path: "/home",
+        path: "/dashboard",
         element: <Dashboard />,
+      },
+      {
+        path: "/sendMoney",
+        element: <SendMoney />,
+      },
+      {
+        path: "/cashOut",
+        element: <CashOut />,
       },
     ],
   },

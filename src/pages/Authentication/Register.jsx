@@ -1,48 +1,52 @@
-import { useContext } from "react";
+import axios from "axios";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 
-import { AuthContext } from "../../providers/AuthProvider";
-
 const Registration = () => {
   const navigate = useNavigate();
-  const { createUser, setUser } = useContext(AuthContext);
 
-  const handleSignUp = async (e) => {
+  const [accountType, setAccountType] = useState();
+
+  const handleSignUp = (e) => {
     e.preventDefault();
     const form = e.target;
     const name = form.name.value;
     const nid = form.nid.value;
     const mobile = form.mobile.value;
+    const account = form.accountType.value;
     const email = form.email.value;
     const pin = form.pin.value;
     const password = form.password.value;
-    return console.log({ email, nid, name, mobile, pin, password });
+    console.log({
+      email,
+      nid,
+      name,
+      mobile,
+      account,
+      pin,
+      password,
+    });
     try {
-      //2. User Registration
-      await createUser(email, pass).then((result) => {
-        console.log(result);
-        setUser({ ...result.user, displayName: name });
-        //create user entry in Database
-        const userInfo = {
-          name,
-          email,
-          nid,
-          mobile,
-          pin,
-        };
+      const userInfo = {
+        name,
+        email,
+        nid,
+        mobile,
+        account,
+        role: account === "agent" ? "requested" : "user",
+        pin,
+        balance: account === "agent" ? 100000 : 40,
+      };
 
-        // axios.post("/users", userInfo).then((res) => {
-        //   console.log("user added to DB ==>", res.data);
-        //   if (res.data.insertedId) {
-        //     form.target.reset();
-        //     toast.success("user created successfully");
-        //   }
-        // });
+      axios.post(`http://localhost:5000/users`, userInfo).then((res) => {
+        console.log("user added to DB ==>", res.data);
+        if (res.data.insertedId) {
+          navigate("/");
+          form.reset();
+          toast.success("user created successfully");
+        }
       });
-
-      toast.success("Signup Successful");
-      navigate("/");
     } catch (err) {
       console.log(err);
       toast.error(err?.message);
@@ -56,7 +60,6 @@ const Registration = () => {
       <form onSubmit={handleSignUp} className="space-y-6">
         {/* Name */}
         <div className="relative">
-          
           <input
             placeholder="Enter Your Name"
             className="peer h-10 w-full border-b-2 border-gray-300 text-black bg-transparent placeholder-transparent focus:outline-none focus:border-purple-500"
@@ -105,6 +108,20 @@ const Registration = () => {
           </label>
         </div>
 
+        {/* Account Type */}
+        <select
+          name="accountType"
+          value={accountType || ""}
+          onChange={(e) => setAccountType(e.target.value)}
+          className="relative peer h-10 w-full border-b-2 border-gray-300 text-gray-500 bg-transparent placeholder-transparent focus:outline-none focus:border-purple-500"
+        >
+          <option disabled value="">
+            Account Type
+          </option>
+          <option value="user">User</option>
+          <option value="agent">Agent</option>
+        </select>
+
         {/* email */}
         <div className="relative">
           <input
@@ -119,7 +136,7 @@ const Registration = () => {
             className="absolute left-0 -top-3.5  text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-purple-500 peer-focus:text-sm"
             htmlFor="email"
           >
-            Email or Number
+            Email Address
           </label>
         </div>
 
